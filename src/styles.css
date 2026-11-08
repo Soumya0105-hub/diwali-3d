@@ -1,8 +1,11 @@
 *{box-sizing:border-box;margin:0}
 html,body,#root,.app{height:100%;width:100%;overflow:hidden;background:#050b24;color:#fff0cf;font-family:'Cormorant Garamond','Noto Serif Bengali','Noto Serif Devanagari',serif;touch-action:none;user-select:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
+.error-screen{height:100%;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1rem;padding:2rem;text-align:center;background:#050b24;color:#fff0cf;font-family:'Cormorant Garamond',serif}
+.error-screen h1{font-family:Cinzel,serif;color:#ffd36b;font-size:clamp(1.3rem,6vw,2.2rem)}
+.error-screen p{font-size:1.2rem}.error-screen button{background:#e98a1a;color:#3a1600;font-weight:700}
 canvas{position:fixed!important;inset:0;z-index:0;display:block;touch-action:none;pointer-events:auto}
-.diya-hit-area{display:block;width:clamp(150px,28vw,250px);height:clamp(120px,22vw,200px);padding:0;border:0;border-radius:50%;background:transparent;box-shadow:none;cursor:pointer;touch-action:manipulation;pointer-events:auto}
-.diya-hit-area:hover,.diya-hit-area:active{background:transparent;box-shadow:none;transform:none}
+.diya-touch-button{display:flex;align-items:center;justify-content:center;width:clamp(170px,48vw,250px);min-height:48px;padding:.65rem .9rem;border:1px solid rgba(255,211,107,.9);border-radius:999px;background:linear-gradient(180deg,rgba(170,38,28,.98),rgba(92,12,16,.98));color:#fff0cf;box-shadow:0 0 18px rgba(255,92,42,.45),inset 0 1px rgba(255,240,190,.35);font-family:Cinzel,serif;font-size:clamp(.62rem,2.4vw,.8rem);font-weight:700;letter-spacing:.08em;line-height:1.2;white-space:nowrap;touch-action:manipulation;pointer-events:auto}
+.diya-touch-button:active{transform:scale(.96);box-shadow:0 0 30px rgba(255,160,40,.75),inset 0 1px rgba(255,240,190,.35)}
 .overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:calc(1.5rem + env(safe-area-inset-top)) calc(1.2rem + env(safe-area-inset-right)) calc(1.5rem + env(safe-area-inset-bottom)) calc(1.2rem + env(safe-area-inset-left));text-align:center;animation:in .8s cubic-bezier(.22,1,.36,1) both;pointer-events:none;overflow-y:auto;overscroll-behavior:contain}
 .overlay>*{pointer-events:auto}.solid{background:#050b24;z-index:5}
 .veil{background:radial-gradient(ellipse at center,rgba(5,11,36,.5),rgba(5,11,36,.88))}
