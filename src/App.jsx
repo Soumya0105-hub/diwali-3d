@@ -77,7 +77,7 @@ export default function App() {
 
   const hud = stage === 'diyas' || stage === 'rangoli' || stage === 'lantern' || stage === 'fireworks'
   return <div className={'app' + (pulse ? ' firework-pulse' : '')} onPointerDown={tapSky}>
-    {stage !== 'loading' && <Scene stage={stage} lit={lit} onLight={light} rangoli={rangoli} launched={launched} onLaunch={() => setLaunched(true)} onLanternDone={() => setStage('fireworks')} fw={fw} low={low} onFireworkFeedback={fireworkFeedback} />}
+    {stage !== 'loading' && stage !== 'create' && stage !== 'welcome' && <Scene stage={stage} lit={lit} onLight={light} rangoli={rangoli} launched={launched} onLaunch={() => setLaunched(true)} onLanternDone={() => setStage('fireworks')} fw={fw} low={low} onFireworkFeedback={fireworkFeedback} />}
 
     {stage === 'loading' && <div className="overlay solid"><div className="flame" /><h2 className="title">Preparing your celebration</h2><div className="bar"><i style={{ width: prog + '%' }} /></div></div>}
 

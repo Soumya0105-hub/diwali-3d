@@ -139,6 +139,7 @@ export default function Scene({ stage, lit, onLight, rangoli, launched, onLaunch
   const lanternPos = useRef(new THREE.Vector3()), wave = useRef(0)
   const pixelRatio = typeof window === 'undefined' ? 1 : window.devicePixelRatio || 1
   const dpr = low ? [1, Math.min(1.25, pixelRatio)] : [1, Math.min(1.75, pixelRatio)]
+  const diyaStages = ['diyas', 'rangoli', 'lantern', 'fireworks', 'greeting']
   return <Canvas shadows={!low} dpr={dpr} camera={{ fov: 50, position: [0, 5.2, 16], near: .1, far: 260 }} gl={{ antialias: !low, powerPreference: 'high-performance' }}
     onCreated={({ gl }) => { gl.toneMapping = THREE.ACESFilmicToneMapping; gl.toneMappingExposure = 1.15 }}>
     <fog attach="fog" args={['#0b1033', 30, 110]} />
@@ -152,7 +153,7 @@ export default function Scene({ stage, lit, onLight, rangoli, launched, onLaunch
     <Skyline /><Floor /><Walls /><House low={low} /><Garden low={low} /><Petals low={low} />
     {stage === 'aerial' && <AerialColony low={low} />}
     <Rangoli show={rangoli} wave={wave} />
-    {stage !== 'aerial' && <Diya pos={DIYA} lit={lit} onLight={onLight} scale={2.1} />}
+    {diyaStages.includes(stage) && <Diya pos={DIYA} lit={lit} onLight={onLight} scale={2.1} />}
     <Lantern stage={stage} launched={launched} onLaunch={onLaunch} onDone={onLanternDone} posRef={lanternPos} />
     <Sparkles count={low ? 20 : 90} scale={[24, 8, 18]} position={[0, 4, 2]} size={3} speed={.25} color="#ffd36b" />
     <Fireworks api={fw} low={low} onFireworkFeedback={onFireworkFeedback} />
