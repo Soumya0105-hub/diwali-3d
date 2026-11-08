@@ -1,6 +1,6 @@
 *{box-sizing:border-box;margin:0}
 html,body,#root,.app{height:100%;width:100%;overflow:hidden;background:#050b24;color:#fff0cf;font-family:'Cormorant Garamond','Noto Serif Bengali','Noto Serif Devanagari',serif;touch-action:none;user-select:none;-webkit-tap-highlight-color:transparent;overscroll-behavior:none}
-canvas{position:fixed!important;inset:0}
+canvas{position:fixed!important;inset:0;z-index:0;display:block;touch-action:none;pointer-events:auto}
 .overlay{position:fixed;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.1rem;padding:calc(1.5rem + env(safe-area-inset-top)) calc(1.2rem + env(safe-area-inset-right)) calc(1.5rem + env(safe-area-inset-bottom)) calc(1.2rem + env(safe-area-inset-left));text-align:center;animation:in .8s cubic-bezier(.22,1,.36,1) both;pointer-events:none;overflow-y:auto;overscroll-behavior:contain}
 .overlay>*{pointer-events:auto}.solid{background:#050b24;z-index:5}
 .veil{background:radial-gradient(ellipse at center,rgba(5,11,36,.5),rgba(5,11,36,.88))}

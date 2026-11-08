@@ -1,4 +1,4 @@
-import { useRef, useMemo } from 'react'
+import { useRef, useMemo, useEffect } from 'react'
 import { useFrame } from '@react-three/fiber'
 import { Sparkles, Text } from '@react-three/drei'
 import * as THREE from 'three'
@@ -21,7 +21,17 @@ export const TIP = [.184, .23] // wick tip (x,y) in diya local space
 
 export function Diya({ pos, lit, onLight, scale = 1.3, index = 0 }) {
   const flame = useMemo(() => flameMaterial(0), []), glow = useMemo(() => glowMaterial(0, '#ff9a3c', 1), [])
-  const prog = useRef(0), light = useRef(), oil = useRef(), hint = useRef(), wick = useRef()
+  const prog = useRef(0), light = useRef(), oil = useRef(), hint = useRef(), wick = useRef(), activated = useRef(false)
+  useEffect(() => {
+    if (!lit) activated.current = false
+  }, [lit])
+  const activate = e => {
+    e.stopPropagation()
+    if (activated.current || lit || !onLight) return
+    activated.current = true
+    if (e.pointerId !== undefined && e.target?.setPointerCapture) e.target.setPointerCapture(e.pointerId)
+    onLight()
+  }
   useFrame(({ clock }, dt) => {
     const t = clock.elapsedTime
     prog.current = THREE.MathUtils.damp(prog.current, lit ? 1 : 0, 3.2, dt)
@@ -37,21 +47,21 @@ export function Diya({ pos, lit, onLight, scale = 1.3, index = 0 }) {
   })
   return <group position={pos} scale={scale}>
     <mesh rotation-x={-Math.PI / 2} position-y={.006}><planeGeometry args={[1.2, 1.2]} /><meshBasicMaterial map={shadowTex} transparent depthWrite={false} opacity={.85} /></mesh>
-    <mesh geometry={bowlGeo} material={clayMat} castShadow receiveShadow />
-    <mesh position={[0, .147, 0]} rotation-x={-Math.PI / 2}><circleGeometry args={[.225, 28]} />
+    <mesh geometry={bowlGeo} material={clayMat} castShadow receiveShadow onPointerDown={activate} />
+    <mesh position={[0, .147, 0]} rotation-x={-Math.PI / 2} onPointerDown={activate}><circleGeometry args={[.225, 28]} />
       <meshStandardMaterial ref={oil} color="#4a2406" roughness={.06} metalness={.3} emissive="#ff7a10" emissiveIntensity={0} /></mesh>
-    <mesh position={[.115, .19, 0]} rotation-z={-1.05}><cylinderGeometry args={[.011, .014, .16, 6]} />
+    <mesh position={[.115, .19, 0]} rotation-z={-1.05} onPointerDown={activate}><cylinderGeometry args={[.011, .014, .16, 6]} />
       <meshStandardMaterial ref={wick} color="#1a120c" roughness={1} emissive="#ff4a00" emissiveIntensity={0} /></mesh>
-    <mesh geometry={flameGeo} material={flame} position={[TIP[0], TIP[1], 0]} renderOrder={5} />
-    <mesh geometry={floorGlowGeo} material={glow} position-y={.012} scale={1.1} renderOrder={2} />
+    <mesh geometry={flameGeo} material={flame} position={[TIP[0], TIP[1], 0]} renderOrder={5} onPointerDown={activate} />
+    <mesh geometry={floorGlowGeo} material={glow} position-y={.012} scale={1.1} renderOrder={2} onPointerDown={activate} />
     <Text ref={hint} position={[0, .62, .12]} fontSize={.14} color="#e7473f" anchorX="center" anchorY="middle"
       outlineWidth={.018} outlineColor="#210b0b" fillOpacity={.96} material-transparent>
       TOUCH HERE TO GLOW
     </Text>
     {lit && <Sparkles count={5} scale={[.5, .6, .5]} position={[.15, .5, 0]} size={2.2} speed={.5} color="#ffd36b" />}
     <pointLight ref={light} position={[TIP[0], .55, 0]} color="#ff9a3c" intensity={0} distance={7} decay={2} />
-    <mesh position-y={.3} onPointerDown={e => { e.stopPropagation(); if (!lit && onLight) onLight() }}
+    <mesh position-y={.3} onPointerDown={activate}
       onPointerOver={() => { if (!lit) document.body.style.cursor = 'pointer' }} onPointerOut={() => { document.body.style.cursor = '' }}>
-      <sphereGeometry args={[.52, 10, 10]} /><meshBasicMaterial transparent opacity={0} depthWrite={false} /></mesh>
+      <sphereGeometry args={[.68, 12, 12]} /><meshBasicMaterial transparent opacity={0} depthWrite={false} /></mesh>
   </group>
 }
